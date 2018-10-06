@@ -90,8 +90,11 @@ class Sudoku:
         for r in row:
             for c in col:
         """
-        raise NotImplementedError()
-
+        for r in range(1, len(self.board)):
+            for c in range(1, len(self.board[r])):
+                if(self.board[r][c] == 0):
+                    return (r, c)
+        return None
     def complete(self):
         """
         IMPLEMENT FOR PART 1
@@ -99,7 +102,7 @@ class Sudoku:
 
         i.e. if there are no more first epsilon variables
         """
-        raise NotImplementedError()
+        return self.firstEpsilonVariable() == None
 
     def variableDomain(self, r, c):
         """
@@ -110,8 +113,23 @@ class Sudoku:
         i.e. return a list of the possible number assignments to this variable
         without breaking consistency for its row, column, or box.
         """
-        raise NotImplementedError()
-
+        domain = range (1, 9)
+        col = self.col(c)
+        row = self.row(r)
+        box = self.box(self.box_id(r, c))
+        for r_val in row:
+            if r_val in domain:
+                # Remove row vals
+                domain.remove(r_val)
+        for c_val in col:
+            if c_val in domain:
+                # Remove row vals
+                domain.remove(c_val)
+        for b_val in box:
+            if b_val in domain:
+                # Remove row vals
+                domain.remove(b_val)
+        return domain
     # PART 2
     def updateFactor(self, factor_type, i):
         """
@@ -127,37 +145,65 @@ class Sudoku:
 
         Hint: crossOff may be useful here
         """
-        raise NotImplementedError()
-        # values = []
-        # if factor_type == BOX:
+        values = []
+        poss_vals = range(1, 10)
+        if factor_type == BOX:
+            box = self.box(i)
+            for b in box:
+                if b in poss_vals:
+                    poss_vals[poss_vals.index(b)] = None
+            # Remove 0s, calc num conflicts
+            values = [x for x in box if x != 0]
+            s = set([x for x in box if x != 0])
+        if factor_type == ROW:
+            row = self.row(i)
+            for r in row:
+                if r in poss_vals:
+                    poss_vals[poss_vals.index(r)] = None
+            # Remove 0s, calc num conflicts
+            values = [x for x in row if x != 0]
+            s = set([x for x in row if x != 0])
+        if factor_type == COL:
+            col = self.col(i)
+            for c in col:
+                if c in poss_vals:
+                    poss_vals[poss_vals.index(c)] = None
+            # Remove 0s, calc num conflicts
+            values = [x for x in col if x != 0]
+            s = set([x for x in col if x != 0])
 
-        # if factor_type == ROW:
-
-        # if factor_type == COL:
-
-        # self.factorNumConflicts[factor_type, i] =
-        # self.factorRemaining[factor_type, i] =
-
+        self.factorNumConflicts[factor_type, i] = len(values) - len(s)
+        self.factorRemaining[factor_type, i] = poss_vals
+        #return(poss_vals, len(values) - len(s))
     def updateAllFactors(self):
         """
         IMPLEMENT FOR PART 2
         Update the values remaining for all factors.
         There is one factor for each row, column, and box.
         """
-        raise NotImplementedError()
+        for i in range(1, len(self.board)):
+            self.updateFactor(ROW, i)
+            self.updateFactor(BOX, i)
+            self.updateFactor(COL, i)
 
     def updateVariableFactors(self, variable):
         """
         IMPLEMENT FOR PART 2
         Update all the factors impacting a variable (neighbors in factor graph).
         """
-        raise NotImplementedError()
+        r = variable[0]
+        c = variable[1]
+        b = self.box_id(r, c)
+        self.updateFactor(ROW, r)
+        self.updateFactor(COL, c)
+        self.updateFactor(BOX, b)
 
     # CSP SEARCH CODE
     def nextVariable(self):
         """
         Return the next variable to try assigning.
         """
+        return self.firstEpsilonVariable()
         if args.mostconstrained:
             return self.mostConstrainedVariable()
         else:
@@ -177,8 +223,21 @@ class Sudoku:
 
         Hint: setVariable and variableDomain will be useful
         """
-        # nextVariable =  self.nextVariable()
-        raise NotImplementedError()
+        poss_boards = []
+
+        # Gets row and col of next variable
+        nextVariable =  self.nextVariable()
+        r = nextVariable[0]
+        c = nextVariable[1]
+
+        # Gets possible values for this var
+        poss_vals = self.variableDomain(r, c)
+
+        # Returns all boards with the poss vals of this var
+        for v in poss_vals:
+            poss_boards.append(self.setVariable(r, c, v))
+
+        return poss_boards
 
     def getAllSuccessors(self):
         if not args.forward:
@@ -421,6 +480,7 @@ class Sudoku:
 def solveCSP(problem):
     statesExplored = 0
     frontier = [problem]
+    print frontier
     while frontier:
         state = frontier.pop()
 
