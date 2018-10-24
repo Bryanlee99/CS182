@@ -25,7 +25,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         for a given number of iterations using the supplied
         discount factor.
     """
-    def __init__(self, mdp, discount = 0.9, iterations = 100):
+    def __init__(self, mdp, discount = 0.9, iterations = 1):
         """
           Your value iteration agent should take an mdp on
           construction, run the indicated number of iterations
@@ -44,8 +44,16 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.values = util.Counter() # A Counter is a dict with default 0
 
         # Write value iteration code here
-        "*** YOUR CODE HERE ***"
 
+        for i in range(iterations):
+            storeValues = util.Counter()
+            states = mdp.getStates()
+            for s in states:
+                actions = mdp.getPossibleActions(s)
+                if(len(actions) == 0): continue
+                qVals = [self.getQValue(s, a) for a in actions]
+                storeValues[s] = max(qVals)
+            self.values = storeValues
 
     def getValue(self, state):
         """
@@ -60,7 +68,12 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        successors = self.mdp.getTransitionStatesAndProbs(state, action)
+        nextStateTuples, probsTuples = zip(*successors)
+        qVal = 0
+        for i, nextState in enumerate(nextStateTuples):
+            qVal += probsTuples[i] * (self.mdp.getReward(state, action, nextState) + self.discount * self.getValue(nextState))
+        return qVal
 
     def computeActionFromValues(self, state):
         """
@@ -72,7 +85,12 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        actions = self.mdp.getPossibleActions(state)
+        if(len(actions) == 0):
+            return
+
+        qVals = [self.getQValue(state, a) for a in actions]
+        return actions[qVals.index(max(qVals))]
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
