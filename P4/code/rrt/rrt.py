@@ -52,12 +52,14 @@ class rrt:
         for i in range(self.MAX_ITER):
             # Get a new point
             xy = u.getNewPoint(self.XDIM,self.YDIM,self.goal_node)
+
             # If that point is collision free then try to connect it.
             if u.isCollisionFree(self.obstacles,xy,self.LINE_WIDTH):
                 # first find the "nearest" node to connect to
                 nn = u.nearestNode(nodes,xy)
                 # take a step in that direction
                 newnode = u.extend(nn,xy,self.DELTA)
+
                 # make sure we are still collision free
                 if u.isCollisionFree(self.obstacles,newnode,self.LINE_WIDTH):
                     # if so append to the list and draw it

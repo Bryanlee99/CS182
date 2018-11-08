@@ -92,8 +92,8 @@ class Sudoku:
         """
         for r in range(1, len(self.board)):
             for c in range(1, len(self.board[r])):
-                if(self.board[r][c] == 0):
-                    return (r, c)
+                if(self.board[r-1][c-1] == 0):
+                    return (r-1, c-1)
         return None
     def complete(self):
         """
@@ -113,7 +113,7 @@ class Sudoku:
         i.e. return a list of the possible number assignments to this variable
         without breaking consistency for its row, column, or box.
         """
-        domain = range (1, 9)
+        domain = range (1, 10)
         col = self.col(c)
         row = self.row(r)
         box = self.box(self.box_id(r, c))
@@ -181,7 +181,7 @@ class Sudoku:
         Update the values remaining for all factors.
         There is one factor for each row, column, and box.
         """
-        for i in range(1, len(self.board)):
+        for i in range(0, len(self.board)):
             self.updateFactor(ROW, i)
             self.updateFactor(BOX, i)
             self.updateFactor(COL, i)
@@ -203,7 +203,6 @@ class Sudoku:
         """
         Return the next variable to try assigning.
         """
-        return self.firstEpsilonVariable()
         if args.mostconstrained:
             return self.mostConstrainedVariable()
         else:
@@ -226,7 +225,7 @@ class Sudoku:
         poss_boards = []
 
         # Gets row and col of next variable
-        nextVariable =  self.nextVariable()
+        nextVariable = self.nextVariable()
         r = nextVariable[0]
         c = nextVariable[1]
 
@@ -240,6 +239,7 @@ class Sudoku:
         return poss_boards
 
     def getAllSuccessors(self):
+
         if not args.forward:
             return self.getSuccessors()
         else:
@@ -257,7 +257,12 @@ class Sudoku:
         i.e. make sure that for every unassigned element in the board, that
         element has a non-trivial domain (its domain isn't empty)
         """
-        raise NotImplementedError()
+        for r in range(0, 9):
+            for c in range(0, 9):
+                if(self.board[r][c] == 0):
+                    if(len(self.variableDomain(r, c)) == 0):
+                        return False
+        return True
 
     # LOCAL SEARCH CODE
     # Fixed variables cannot be changed by the player.
@@ -306,8 +311,22 @@ class Sudoku:
         NOTE: Please, please, please use random.shuffle() -- will help us out
               on the autograder side!
         """
-        raise NotImplementedError()
-        # self.updateAllFactors() # to call at end of function
+        global start, boardEasy
+        start = deepcopy(self.board)
+        for r in range(9):
+            row = self.row(r)
+            poss = range(1, 10)
+            diff = list(set(poss).difference(set(row)))
+            random.shuffle(diff)
+            if 0 in diff:
+                diff.remove(0)
+            it = 0
+            for c in range(9):
+                if(self.board[r][c] == 0):
+                    self.board[r][c] = diff[it]
+                    it += 1
+        boardEasy = start
+        self.updateAllFactors() # to call at end of function
 
     # PART 6
     def randomSwap(self):
@@ -320,7 +339,18 @@ class Sudoku:
 
         NOTE: DO NOT swap any of the variables already set: fixedVariables
         """
-        raise NotImplementedError()
+        rows = range(9)
+        random.shuffle(rows)
+        for r in rows:
+            row = self.row(r)
+            indices = []
+            for i, x in enumerate(row):
+                if(self.fixedVariables.get((r, i), None) == None):
+                    indices.append(i)
+            if len(indices) >= 2:
+                random.shuffle(indices)
+                return (r, indices[0]), (r, indices[1])
+        return None
 
     # PART 7
     def gradientDescent(self, variable1, variable2):
@@ -328,7 +358,30 @@ class Sudoku:
         IMPLEMENT FOR PART 7
         Decide if we should swap the values of variable1 and variable2.
         """
-        raise NotImplementedError()
+        self.updateAllFactors()
+        temp, origScore = self.board, self.numConflicts()
+        # Swap values and calc cost
+        x1, y1 = variable1
+        x2, y2 = variable2
+
+        # New Cost
+        temp = self.board[x2][y2]
+        board1 = self.setVariable(x2, y2, self.board[x1][y1])
+        board2 = board1.setVariable(x1, y1, temp)
+        board2.updateAllFactors()
+
+        if board2.numConflicts() <= origScore:
+            self.modifySwap(variable1, variable2)
+
+
+        # # Compare costs
+        # if board2.numConflicts() > self.numConflicts():
+        #     return
+        # else:
+        #     if random.randint(0, 1000) == 1:
+        #         return
+        #     self.modifySwap(variable1, variable2)
+        #     self.updateAllFactors()
 
     ### IGNORE - PRINTING CODE
 
@@ -480,10 +533,8 @@ class Sudoku:
 def solveCSP(problem):
     statesExplored = 0
     frontier = [problem]
-    print frontier
     while frontier:
         state = frontier.pop()
-
         statesExplored += 1
         if state.complete():
             print 'Number of explored: ' + str(statesExplored)

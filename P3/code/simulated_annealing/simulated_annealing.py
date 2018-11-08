@@ -33,7 +33,35 @@ def neighbor_bag(bag):
     Return a "neighbor" of the current bag.
     """
     next_bag = list(bag)
-    return next_bag  # TODO
+    # If bag empty, randomly fill bag
+    if(len(bag) == 0):
+        perm = np.random.permutation(len(w))
+        next_bag_weight = 0;
+        # Add items to bag
+        for i in perm:
+            if(next_bag_weight + w[i] > W):
+                break
+            next_bag.append(i)
+            next_bag_weight += w[i]
+    # Otherwise, randomly replace one element with other elements
+    else:
+        import random as r
+        bag_len = len(bag)
+        remv = r.randint(1, bag_len)
+        del next_bag[remv - 1]
+
+        # Choose replacements
+        perm = np.random.permutation(len(w))
+        next_bag_weight = sum([w[i] for i in next_bag])
+        # Add items to bag
+        for i in perm:
+            if(i in next_bag):
+                continue
+            if (next_bag_weight + w[i] > W):
+                break
+            next_bag.append(i)
+            next_bag_weight += w[i]
+    return next_bag
 
 
 def accept_bag(new_val, old_val, T):
@@ -45,7 +73,10 @@ def accept_bag(new_val, old_val, T):
     1                            -->  if new_val > old_val
     exp((new_val - old_val) / T) -->  if old_val >= new_val
     """
-    return 0  # TODO
+    if(new_val > old_val):
+        return 1
+    else:
+        return math.exp((new_val - old_val) / T)
 
 
 def simulated_annealing():
@@ -122,4 +153,6 @@ if __name__ == "__main__":
     plt.plot(SA_trace, label="SA")
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
                ncol=2, mode="expand", borderaxespad=0.)
+    plt.ylim((0, sum(v)))
     plt.show()
+
