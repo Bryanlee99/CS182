@@ -18,6 +18,10 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+<<<<<<< HEAD
+=======
+from game import Directions
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 class SearchProblem:
     """
@@ -87,16 +91,105 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
     util.raiseNotDefined()
+=======
+    # Stores states on frontier
+    to_search = util.Stack()
+    # Stores states' parents to return moves
+    parent_dict = {}
+    # Visited states
+    visited = []
+    to_search.push((problem.getStartState(), 'None', 1))
+
+    # DFS
+    while(not to_search.isEmpty()):
+        state = to_search.pop()
+        if(problem.isGoalState(state[0])):
+            # Retrace path to goal
+            moves = []
+            curr_state = state
+            while(True):
+                if (curr_state[0] == problem.getStartState()):
+                    break
+                moves.append(curr_state[1])
+                curr_state = parent_dict[curr_state]
+            moves = list(reversed(moves))
+            return moves
+        if(state[0] in visited):
+             continue
+        # Mark as visited
+        visited.append(state[0])
+        # Append neighbors
+        neighbors = problem.getSuccessors(state[0])
+        for a in neighbors:
+            if(a[0] not in visited):
+                to_search.push(a)
+                parent_dict[a] = state
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
     util.raiseNotDefined()
+=======
+    # Stores states on frontier
+    to_search = util.Queue()
+    # Stores states' parents to return moves
+    parent_dict = {}
+    # Visited states
+    visited = []
+    to_search.push((problem.getStartState(), []))
+
+    # BFS
+    while (not to_search.isEmpty()):
+        state = to_search.pop()
+        if (problem.isGoalState(state[0])):
+            return state[1]
+        if (state[0] in visited):
+            continue
+        # Mark as visited
+        visited.append(state[0])
+        # Append neighbors
+        neighbors = problem.getSuccessors(state[0])
+        for n in neighbors:
+            loc_corner_state = n[0]
+            updated_action = state[1] + [n[1]]
+            if (loc_corner_state not in visited):
+                to_search.push((loc_corner_state, updated_action))
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+=======
+    # Stores states on frontier
+    to_search = util.PriorityQueue()
+    # Parent
+    parent_dict = {}
+    # Visited states
+    visited = []
+    to_search.push((problem.getStartState(), []), 0)
+    parent_dict[problem.getStartState()] = []
+    # UCS
+    while (not to_search.isEmpty()):
+        state = to_search.pop()
+        if (problem.isGoalState(state[0])):
+            return state[1]
+        if (state[0] in visited):
+            continue
+        # Mark as visited
+        visited.append(state[0])
+        # Append neighbors
+        neighbors = problem.getSuccessors(state[0])
+        for n in neighbors:
+            if (n[0] not in visited):
+                parent_dict[n[0]] = parent_dict[state[0]] + [n[1]]
+                to_search.push((n[0], state[1] + [n[1]]), problem.getCostOfActions(state[1] + [n[1]]))
+
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -109,9 +202,37 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
     util.raiseNotDefined()
 
 
+=======
+    # Stores states on frontier
+    to_search = util.PriorityQueue()
+    # Parent
+    parent_dict = {}
+    # Visited states
+    visited = []
+    # States are ((location, corners_visited), action)
+    to_search.push(((problem.getStartState(), []), [], 1), 0 + heuristic(problem.getStartState(), problem))
+    # A*
+    while (not to_search.isEmpty()):
+        state = to_search.pop()
+        if (problem.isGoalState(state[0][0])):
+            return state[1]
+        if (state[0] in visited):
+            continue
+        # Mark as visited
+        visited.append(state[0])
+        # Append neighbors
+        neighbors = problem.getSuccessors(state[0][0])
+        for n in neighbors:
+            if (n[0] not in visited):
+                to_search.push(((n[0], []), state[1] + [n[1]]), problem.getCostOfActions(state[1] + [n[1]]) \
+                               + heuristic(n[0], problem))
+    util.raiseNotDefined()
+
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
