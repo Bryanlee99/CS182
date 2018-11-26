@@ -25,7 +25,15 @@ class ValueIterationAgent(ValueEstimationAgent):
         for a given number of iterations using the supplied
         discount factor.
     """
+<<<<<<< HEAD
     def __init__(self, mdp, discount = 0.9, iterations = 100):
+=======
+<<<<<<< HEAD
+    def __init__(self, mdp, discount = 0.9, iterations = 100):
+=======
+    def __init__(self, mdp, discount = 0.9, iterations = 1):
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
         """
           Your value iteration agent should take an mdp on
           construction, run the indicated number of iterations

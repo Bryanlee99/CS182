@@ -43,7 +43,14 @@ class QLearningAgent(ReinforcementAgent):
         ReinforcementAgent.__init__(self, **args)
 
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
         self.qvalues = util.Counter()
+=======
+<<<<<<< HEAD
+        self.qvalues = util.Counter()
+=======
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
 
     def getQValue(self, state, action):
         """
@@ -52,7 +59,15 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
         return self.qvalues[(state, action)]
+=======
+<<<<<<< HEAD
+        return self.qvalues[(state, action)]
+=======
+        util.raiseNotDefined()
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
 
 
     def computeValueFromQValues(self, state):
@@ -63,11 +78,21 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
         legalMoves = self.getLegalActions(state)
         if(len(legalMoves) == 0):
             return 0
         value = max([self.getQValue(state, a) for a in legalMoves])
         return value
+<<<<<<< HEAD
+=======
+=======
+        util.raiseNotDefined()
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
 
     def computeActionFromQValues(self, state):
         """
@@ -76,10 +101,20 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
         values = [self.getQValue(state, a) for a in self.getLegalActions(state)]
         maxVal = self.computeValueFromQValues(state)
         possActions = self.getLegalActions(state)
         return possActions[values.index(maxVal)]
+<<<<<<< HEAD
+=======
+=======
+        util.raiseNotDefined()
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
 
     def getAction(self, state):
         """
@@ -96,6 +131,7 @@ class QLearningAgent(ReinforcementAgent):
         legalActions = self.getLegalActions(state)
         action = None
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
 
         # Return 0 if terminal state
         if(len(legalActions) == 0):
@@ -114,6 +150,31 @@ class QLearningAgent(ReinforcementAgent):
             action = bestAction
         else:
             action = randAction
+=======
+<<<<<<< HEAD
+
+        # Return 0 if terminal state
+        if(len(legalActions) == 0):
+            return None
+
+        # Get best action
+        bestAction = self.computeActionFromQValues(state)
+
+        # Choose random action
+        import random
+        randAction = random.choice(legalActions)
+
+        # Selection random action epsilon chance
+        randNum = random.randint(1, 10000)/10000.0
+        if(randNum > self.epsilon):
+            action = bestAction
+        else:
+            action = randAction
+=======
+        util.raiseNotDefined()
+
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
         return action
 
     def update(self, state, action, nextState, reward):
@@ -126,9 +187,19 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
         maxSuccessor = self.computeValueFromQValues(nextState)
         qval = (1 - self.alpha) * self.qvalues[(state, action)] + self.alpha * (reward + self.discount * maxSuccessor)
         self.qvalues[(state, action)] = qval
+=======
+<<<<<<< HEAD
+        maxSuccessor = self.computeValueFromQValues(nextState)
+        qval = (1 - self.alpha) * self.qvalues[(state, action)] + self.alpha * (reward + self.discount * maxSuccessor)
+        self.qvalues[(state, action)] = qval
+=======
+        util.raiseNotDefined()
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)

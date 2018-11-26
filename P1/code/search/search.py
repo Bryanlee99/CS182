@@ -18,7 +18,10 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+<<<<<<< HEAD
+=======
 from game import Directions
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 class SearchProblem:
     """
@@ -88,6 +91,9 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+    util.raiseNotDefined()
+=======
     # Stores states on frontier
     to_search = util.Stack()
     # Stores states' parents to return moves
@@ -120,10 +126,14 @@ def depthFirstSearch(problem):
             if(a[0] not in visited):
                 to_search.push(a)
                 parent_dict[a] = state
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+    util.raiseNotDefined()
+=======
     # Stores states on frontier
     to_search = util.Queue()
     # Stores states' parents to return moves
@@ -148,10 +158,13 @@ def breadthFirstSearch(problem):
             updated_action = state[1] + [n[1]]
             if (loc_corner_state not in visited):
                 to_search.push((loc_corner_state, updated_action))
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+=======
     # Stores states on frontier
     to_search = util.PriorityQueue()
     # Parent
@@ -176,6 +189,7 @@ def uniformCostSearch(problem):
                 parent_dict[n[0]] = parent_dict[state[0]] + [n[1]]
                 to_search.push((n[0], state[1] + [n[1]]), problem.getCostOfActions(state[1] + [n[1]]))
 
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -188,6 +202,11 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
+    util.raiseNotDefined()
+
+
+=======
     # Stores states on frontier
     to_search = util.PriorityQueue()
     # Parent
@@ -213,6 +232,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                                + heuristic(n[0], problem))
     util.raiseNotDefined()
 
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch

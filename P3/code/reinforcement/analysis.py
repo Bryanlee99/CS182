@@ -21,39 +21,91 @@
 
 def question2():
     answerDiscount = 0.9
+<<<<<<< HEAD
     answerNoise = 0.0
+=======
+<<<<<<< HEAD
+    answerNoise = 0.0
+=======
+    answerNoise = 0.01
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     return answerDiscount, answerNoise
 
 def question3a():
     answerDiscount = 0.1
     answerNoise = 0
+<<<<<<< HEAD
     answerLivingReward = -1
+=======
+<<<<<<< HEAD
+    answerLivingReward = -1
+=======
+    answerLivingReward = 0
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3b():
+<<<<<<< HEAD
     answerDiscount = 0.7
     answerNoise = 0.5
     answerLivingReward = -1.2
+=======
+<<<<<<< HEAD
+    answerDiscount = 0.7
+    answerNoise = 0.5
+    answerLivingReward = -1.2
+=======
+    answerDiscount = 0.6
+    answerNoise = 0.3
+    answerLivingReward = -1
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3c():
     answerDiscount = 1
     answerNoise = 0
+<<<<<<< HEAD
     answerLivingReward = -0.5
+=======
+<<<<<<< HEAD
+    answerLivingReward = -0.5
+=======
+    answerLivingReward = -0.1
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3d():
     answerDiscount = 1
     answerNoise = 0.5
+<<<<<<< HEAD
     answerLivingReward = -0.5
+=======
+<<<<<<< HEAD
+    answerLivingReward = -0.5
+=======
+    answerLivingReward = -0.1
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3e():
+<<<<<<< HEAD
     answerDiscount = 1
+=======
+<<<<<<< HEAD
+    answerDiscount = 1
+=======
+    answerDiscount = 0
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     answerNoise = 0
     answerLivingReward = 1
     return answerDiscount, answerNoise, answerLivingReward
@@ -62,7 +114,15 @@ def question3e():
 def question6():
     answerEpsilon = None
     answerLearningRate = None
+<<<<<<< HEAD
     return 'NOT POSSIBLE'
+=======
+<<<<<<< HEAD
+    return 'NOT POSSIBLE'
+=======
+    return answerEpsilon, answerLearningRate
+>>>>>>> 78cd9fef1a5c95ffb80f2a370ca3b7eff5f83771
+>>>>>>> 4f674328a3979632c212fb5330deaf9697529c8d
     # If not possible, return 'NOT POSSIBLE'
 
 if __name__ == '__main__':
